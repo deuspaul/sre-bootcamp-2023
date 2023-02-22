@@ -45,6 +45,7 @@ def url_login():
 @app.route("/protected")
 def url_protected():
     auth_token = request.headers.get('Authorization')
+    print(auth_token)
     res = {
         "data": protected.access_data(auth_token)
     }

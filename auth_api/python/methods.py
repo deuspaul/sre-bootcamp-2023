@@ -45,13 +45,13 @@ class Token:
             if saltedPwd == results[1] :
                 print("User authenticated successfully! " + results[0] + " hash: " + results[1] + " role: " + results[3])
                 #create jwt token with role, secret and algorithm
-                payload = {'role': results[3]}
+                payload = {'role': str(results[3])}
                 token = jwt.encode(payload, 'my2w7wjd7yXF64FIADfJxNs1oupTGAuW', algorithm='HS256')
                 #return ("User authenticated successfully!" + results[0] + results[1] + results[2])
                 return token
 
         except Exception as e:
-            return ("Error authenticating user!")
+            return ("403 Error authenticating user!")
         #return 'test'
         #if username & pwd = correct, 
             #generate a token with the necessary secret and return it
@@ -63,4 +63,13 @@ class Token:
 class Restricted:
 
     def access_data(self, authorization):
-        return 'test'
+        print("methodsez: " + authorization)
+        #payload = jwt.decode(authorization, 'my2w7wjd7yXF64FIADfJxNs1oupTGAuW', algorithms=['HS256'])
+        decoded_token = jwt.decode(authorization, 'my2w7wjd7yXF64FIADfJxNs1oupTGAuW', algorithms=['HS256'])
+        print (decoded_token)
+        print (type(decoded_token))
+        if decoded_token['role'] == 'admin' or 'viewer' or 'editor':
+            print ("it is valid")
+        return 'You are under protected data'
+        #if something
+            #return 'You are under protected data'
